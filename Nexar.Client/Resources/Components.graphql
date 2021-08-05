@@ -1,0 +1,21 @@
+﻿query Components($workspaceUrl: String! $first: Int! $after: String) {
+  desLibrary(workspaceUrl: $workspaceUrl) {
+    components(first: $first after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        ... MyComponent
+      }
+    }
+  }
+}
+
+fragment MyComponent on DesComponent {
+  id
+  name
+  folder {
+    name
+  }
+}
