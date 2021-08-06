@@ -669,7 +669,19 @@ type DesStackup {
 type DesSupplierComponent {
   name: String!
   partNumber: String!
-  priority: Int!
+  prices: [DesSupplierPrice!]!
+  stocks: [DesSupplierStock!]!
+}
+
+type DesSupplierPrice {
+  currency: String!
+  price: Decimal!
+  breakQuantity: Int!
+}
+
+type DesSupplierStock {
+  locationName: String!
+  quantity: Decimal!
 }
 
 type DesSymbol {

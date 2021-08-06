@@ -28,9 +28,10 @@
         <DataGrid Grid.Column="2" Name="DG1" ItemsSource="{Binding}" AutoGenerateColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Manufacturer"  Binding="{Binding Manufacturer}"/>
-                <DataGridTextColumn Header="Part No." Binding="{Binding ManPartNumber}" />
+                <DataGridTextColumn Header="MPN" Binding="{Binding ManPartNumber}" />
                 <DataGridTextColumn Header="Supplier"  Binding="{Binding Supplier}"/>
-                <DataGridTextColumn Header="Part No." Binding="{Binding SupPartNumber}" />
+                <DataGridTextColumn Header="SKU" Binding="{Binding SupPartNumber}" />
+                <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

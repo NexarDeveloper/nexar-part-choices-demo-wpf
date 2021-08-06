@@ -12,5 +12,10 @@ fragment MyPart on DesManufacturerComponent {
   supplierComponents {
     name
     partNumber
+    prices {
+      currency
+      price
+      breakQuantity
+    }
   }
 }

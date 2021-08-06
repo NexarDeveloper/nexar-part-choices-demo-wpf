@@ -4,4 +4,5 @@ public class PartInfo
     public string ManPartNumber { get; set; }
     public string Supplier { get; set; }
     public string SupPartNumber { get; set; }
+    public string Price { get; set; }
 }

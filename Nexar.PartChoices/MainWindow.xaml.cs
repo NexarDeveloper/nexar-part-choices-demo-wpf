@@ -182,28 +182,53 @@ namespace Nexar.PartChoices
             if (e.NewValue is TreeViewItem item && item.Tag is ComponentTag component)
             {
                 var list = new List<PartInfo>();
-                using (new WaitCursor())
+                try
                 {
-                    var parts = Task.Run(async () =>
+                    using (new WaitCursor())
                     {
-                        var res = await App.Client.Parts.ExecuteAsync(component.Tag.Id);
-                        ClientHelper.EnsureNoErrors(res);
-                        return res.Data.DesComponentById.ManufacturerComponents;
-                    }).Result;
-
-                    foreach (var man in parts)
-                    {
-                        foreach (var sup in man.SupplierComponents)
+                        var parts = Task.Run(async () =>
                         {
-                            list.Add(new PartInfo
+                            var res = await App.Client.Parts.ExecuteAsync(component.Tag.Id);
+                            ClientHelper.EnsureNoErrors(res);
+                            return res.Data.DesComponentById.ManufacturerComponents;
+                        }).Result;
+
+                        foreach (var man in parts)
+                        {
+                            foreach (var sup in man.SupplierComponents)
                             {
-                                Manufacturer = man.Name,
-                                ManPartNumber = man.PartNumber,
-                                Supplier = sup.Name,
-                                SupPartNumber = sup.PartNumber
-                            });
+                                if (sup.Prices.Count == 0)
+                                {
+                                    list.Add(new PartInfo
+                                    {
+                                        Manufacturer = man.Name,
+                                        ManPartNumber = man.PartNumber,
+                                        Supplier = sup.Name,
+                                        SupPartNumber = sup.PartNumber,
+                                        Price = string.Empty
+                                    });
+                                }
+                                else
+                                {
+                                    foreach (var price in sup.Prices)
+                                    {
+                                        list.Add(new PartInfo
+                                        {
+                                            Manufacturer = man.Name,
+                                            ManPartNumber = man.PartNumber,
+                                            Supplier = sup.Name,
+                                            SupPartNumber = sup.PartNumber,
+                                            Price = $"{price.Currency} {price.Price} each, for quantity {price.BreakQuantity}+"
+                                        }); ;
+                                    }
+                                }
+                            }
                         }
                     }
+                }
+                catch
+                {
+                    MessageBox.Show("Cannot get data at this time. Please try again later.");
                 }
 
                 list = list
