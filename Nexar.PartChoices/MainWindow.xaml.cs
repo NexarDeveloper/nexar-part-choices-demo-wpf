@@ -197,7 +197,7 @@ namespace Nexar.PartChoices
                         {
                             foreach (var sup in man.SupplierComponents)
                             {
-                                if (sup.Prices.Count == 0)
+                                if (sup.Prices == null || sup.Prices.Count == 0)
                                 {
                                     list.Add(new PartInfo
                                     {

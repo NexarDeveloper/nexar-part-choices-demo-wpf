@@ -390,10 +390,12 @@ type DesManufacturePackage {
 }
 
 type DesManufacturerComponent {
+  supplierComponents: [DesSupplierComponent!]!
+  "The manufacturer name."
   name: String!
+  "The part number (MPN)."
   partNumber: String!
   priority: Int!
-  supplierComponents: [DesSupplierComponent!]!
 }
 
 type DesMention {
@@ -667,10 +669,14 @@ type DesStackup {
 }
 
 type DesSupplierComponent {
+  "The supplier name."
   name: String!
+  "The part number (SKU)."
   partNumber: String!
-  prices: [DesSupplierPrice!]!
-  stocks: [DesSupplierStock!]!
+  "Available for library components."
+  prices: [DesSupplierPrice!]
+  "Available for library components."
+  stocks: [DesSupplierStock!]
 }
 
 type DesSupplierPrice {
