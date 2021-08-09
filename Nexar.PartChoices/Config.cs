@@ -36,13 +36,6 @@ namespace Nexar.PartChoices
             }
         }
 
-        /// <summary>
-        /// Gets true if comment change subscription is supported.
-        /// For the momemnt it is not supported by api.nexar.com.
-        /// </summary>
-        public static bool IsSubscription =>
-            ApiEndpoint.IndexOf("nexar.com") < 0;
-
         public enum A365Mode
         {
             Prod,

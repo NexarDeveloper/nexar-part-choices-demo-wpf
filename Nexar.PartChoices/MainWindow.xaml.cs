@@ -219,7 +219,7 @@ namespace Nexar.PartChoices
                                             Supplier = sup.Name,
                                             SupPartNumber = sup.PartNumber,
                                             Price = $"{price.Currency} {price.Price} each, for quantity {price.BreakQuantity}+"
-                                        }); ;
+                                        });
                                     }
                                 }
                             }

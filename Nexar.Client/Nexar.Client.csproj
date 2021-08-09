@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="StrawberryShake.CodeGeneration.CSharp.Analyzers" Version="11.3.3" />
-    <PackageReference Include="StrawberryShake.Transport.Http" Version="11.3.3" />
+    <PackageReference Include="StrawberryShake.CodeGeneration.CSharp.Analyzers" Version="11.3.4" />
+    <PackageReference Include="StrawberryShake.Transport.Http" Version="11.3.4" />
   </ItemGroup>
 
 </Project>

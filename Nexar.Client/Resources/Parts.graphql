@@ -1,7 +1,7 @@
 ﻿query Parts($id: ID!) {
   desComponentById(id: $id) {
     manufacturerComponents {
-      ... MyPart
+      ...MyPart
     }
   }
 }

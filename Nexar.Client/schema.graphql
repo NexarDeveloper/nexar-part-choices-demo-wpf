@@ -704,6 +704,7 @@ type DesSymbol {
 
 type DesTeam {
   users: [DesUser!]!
+  groups: [DesUserGroup!]!
 }
 
 type DesTerminateWorkflowsError {
@@ -735,6 +736,8 @@ type DesUpdateCommentPayload {
 
 "A user information contains the identifier and nullable extra fields."
 type DesUser {
+  "Null if the user no longer exists."
+  groups: [DesUserGroup!]
   "The internal user ID."
   userId: String!
   "Null if the user no longer exists."
@@ -742,7 +745,23 @@ type DesUser {
   "Null if the user no longer exists."
   email: String
   "Null if the user no longer exists."
-  fullName: String
+  firstName: String
+  "Null if the user no longer exists."
+  lastName: String
+  "Null if the user no longer exists."
+  webSite: String
+  "Null if the user no longer exists."
+  currentPosition: String
+  "Null if the user no longer exists."
+  phone: String
+  "Null if the user no longer exists."
+  fax: String
+}
+
+"A user group information."
+type DesUserGroup {
+  "The group name."
+  name: String!
 }
 
 type DesVia {
