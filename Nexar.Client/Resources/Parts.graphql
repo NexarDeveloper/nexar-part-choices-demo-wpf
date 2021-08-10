@@ -1,16 +1,16 @@
 ﻿query Parts($id: ID!) {
   desComponentById(id: $id) {
-    manufacturerComponents {
+    manufacturerParts {
       ...MyPart
     }
   }
 }
 
-fragment MyPart on DesManufacturerComponent {
-  name
+fragment MyPart on DesManufacturerPart {
+  companyName
   partNumber
-  supplierComponents {
-    name
+  supplierParts {
+    companyName
     partNumber
     prices {
       currency

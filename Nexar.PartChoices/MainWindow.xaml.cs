@@ -190,20 +190,20 @@ namespace Nexar.PartChoices
                         {
                             var res = await App.Client.Parts.ExecuteAsync(component.Tag.Id);
                             ClientHelper.EnsureNoErrors(res);
-                            return res.Data.DesComponentById.ManufacturerComponents;
+                            return res.Data.DesComponentById.ManufacturerParts;
                         }).Result;
 
                         foreach (var man in parts)
                         {
-                            foreach (var sup in man.SupplierComponents)
+                            foreach (var sup in man.SupplierParts)
                             {
                                 if (sup.Prices == null || sup.Prices.Count == 0)
                                 {
                                     list.Add(new PartInfo
                                     {
-                                        Manufacturer = man.Name,
+                                        Manufacturer = man.CompanyName,
                                         ManPartNumber = man.PartNumber,
-                                        Supplier = sup.Name,
+                                        Supplier = sup.CompanyName,
                                         SupPartNumber = sup.PartNumber,
                                         Price = string.Empty
                                     });
@@ -214,9 +214,9 @@ namespace Nexar.PartChoices
                                     {
                                         list.Add(new PartInfo
                                         {
-                                            Manufacturer = man.Name,
+                                            Manufacturer = man.CompanyName,
                                             ManPartNumber = man.PartNumber,
-                                            Supplier = sup.Name,
+                                            Supplier = sup.CompanyName,
                                             SupPartNumber = sup.PartNumber,
                                             Price = $"{price.Currency} {price.Price} each, for quantity {price.BreakQuantity}+"
                                         });

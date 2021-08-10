@@ -189,7 +189,7 @@ type DesComponent implements Node {
   "The component folder."
   folder: DesFolder
   "The list of the part choices associated with this component."
-  manufacturerComponents: [DesManufacturerComponent!]!
+  manufacturerParts: [DesManufacturerPart!]!
   "More component data, relatively expensive, recommended for individual components with `desComponentById`."
   details: DesComponentDetails!
   "The library label for this component."
@@ -389,10 +389,10 @@ type DesManufacturePackage {
   name: String!
 }
 
-type DesManufacturerComponent {
-  supplierComponents: [DesSupplierComponent!]!
-  "The manufacturer name."
-  name: String!
+type DesManufacturerPart {
+  supplierParts: [DesSupplierPart!]!
+  "The manufacturer company name."
+  companyName: String!
   "The part number (MPN)."
   partNumber: String!
   priority: Int!
@@ -668,9 +668,9 @@ type DesStackup {
   stacks: [DesStack!]!
 }
 
-type DesSupplierComponent {
-  "The supplier name."
-  name: String!
+type DesSupplierPart {
+  "The supplier company name."
+  companyName: String!
   "The part number (SKU)."
   partNumber: String!
   "Available for library components."
@@ -748,14 +748,6 @@ type DesUser {
   firstName: String
   "Null if the user no longer exists."
   lastName: String
-  "Null if the user no longer exists."
-  webSite: String
-  "Null if the user no longer exists."
-  currentPosition: String
-  "Null if the user no longer exists."
-  phone: String
-  "Null if the user no longer exists."
-  fax: String
 }
 
 "A user group information."
