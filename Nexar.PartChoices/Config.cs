@@ -10,24 +10,24 @@ namespace Nexar.PartChoices
     {
         public const string MyTitle = "Nexar.PartChoices";
 
-        public static A365Mode NexarA365Mode { get; }
+        public static NexarMode NexarMode { get; }
         public static string Authority { get; }
         public static string ApiEndpoint { get; set; }
 
         static Config()
         {
             // default mode
-            var mode = Environment.GetEnvironmentVariable("NEXAR_A365_MODE");
-            NexarA365Mode = mode == null ? A365Mode.Dev1 : (A365Mode)Enum.Parse(typeof(A365Mode), mode, true);
+            var mode = Environment.GetEnvironmentVariable("NEXAR_MODE") ?? "Prod";
+            NexarMode = (NexarMode)Enum.Parse(typeof(NexarMode), mode, true);
 
             // init mode related data
-            switch (NexarA365Mode)
+            switch (NexarMode)
             {
-                case A365Mode.Dev1:
+                case NexarMode.Prod:
                     Authority = "https://identity.nexar.com/";
                     ApiEndpoint = "https://api.nexar.com/graphql/";
                     break;
-                case A365Mode.Prod:
+                case NexarMode.Dev:
                     Authority = "https://identity.nexar.com/";
                     ApiEndpoint = "https://api.nexar.com/graphql/";
                     break;
@@ -35,11 +35,11 @@ namespace Nexar.PartChoices
                     throw new Exception();
             }
         }
+    }
 
-        public enum A365Mode
-        {
-            Prod,
-            Dev1
-        }
+    public enum NexarMode
+    {
+        Prod,
+        Dev
     }
 }

@@ -110,7 +110,8 @@ namespace Nexar.PartChoices
                 string endCursor = null;
                 while (true)
                 {
-                    var res = await App.Client.Components.ExecuteAsync(workspace.Tag.Url, 1000, endCursor);
+                    var client = NexarClientFactory.GetClient(workspace.Tag.Location.ApiServiceUrl);
+                    var res = await client.Components.ExecuteAsync(workspace.Tag.Url, 1000, endCursor);
                     ClientHelper.EnsureNoErrors(res);
                     var data = res.Data.DesLibrary.Components;
                     list.AddRange(data.Nodes);
@@ -129,7 +130,7 @@ namespace Nexar.PartChoices
             // populate workspace with folders
             foreach (var folder in folders)
             {
-                var folderTreeItem = Tree.CreateItem(new FolderTag(folder.Key, folder), true);
+                var folderTreeItem = Tree.CreateItem(new FolderTag(folder.Key, workspace, folder), true);
                 item.Items.Add(folderTreeItem);
             }
         }
@@ -143,7 +144,7 @@ namespace Nexar.PartChoices
             item.Items.Clear();
 
             foreach (var component in folder.Components.OrderBy(x => x.Name))
-                item.Items.Add(Tree.CreateItem(new ComponentTag(component), false));
+                item.Items.Add(Tree.CreateItem(new ComponentTag(component, folder.Workspace), false));
         }
 
         public void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
@@ -188,7 +189,8 @@ namespace Nexar.PartChoices
                     {
                         var parts = Task.Run(async () =>
                         {
-                            var res = await App.Client.Parts.ExecuteAsync(component.Tag.Id);
+                            var client = NexarClientFactory.GetClient(component.Workspace.Tag.Location.ApiServiceUrl);
+                            var res = await client.Parts.ExecuteAsync(component.Tag.Id);
                             ClientHelper.EnsureNoErrors(res);
                             return res.Data.DesComponentById.ManufacturerParts;
                         }).Result;

@@ -10,8 +10,8 @@ namespace Nexar.PartChoices
 {
     public partial class App : Application
     {
-        public static NexarClient Client { get; private set; }
         public static IReadOnlyList<IMyWorkspace> Workspaces { get; private set; }
+
         public static string Username => Login.Username;
 
         public static LoginInfo Login { get; private set; }
@@ -49,6 +49,8 @@ namespace Nexar.PartChoices
                     clientSecret,
                     new string[] { "user.access", "design.domain" },
                     Config.Authority);
+
+                NexarClientFactory.AccessToken = Login.AccessToken;
             }
             catch (Exception ex)
             {
@@ -61,19 +63,8 @@ namespace Nexar.PartChoices
         {
             try
             {
-                var serviceCollection = new ServiceCollection();
-                serviceCollection
-                    .AddNexarClient()
-                    .ConfigureHttpClient(c =>
-                    {
-                        c.BaseAddress = new Uri(Config.ApiEndpoint);
-                        c.DefaultRequestHeaders.Add("token", Login.AccessToken);
-                    })
-                ;
-                var services = serviceCollection.BuildServiceProvider();
-
-                Client = services.GetRequiredService<NexarClient>();
-                var res = await Client.Workspaces.ExecuteAsync();
+                var client = NexarClientFactory.GetClient(Config.ApiEndpoint);
+                var res = await client.Workspaces.ExecuteAsync();
                 ClientHelper.EnsureNoErrors(res);
                 Workspaces = res.Data.DesWorkspaces;
             }

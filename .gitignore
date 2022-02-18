@@ -9,3 +9,6 @@ z
 z.*
 *.user
 launchSettings.json
+
+# VS StrawberryShake
+/.graphqlrc.json
