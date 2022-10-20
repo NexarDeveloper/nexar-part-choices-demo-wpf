@@ -27,10 +27,6 @@ namespace Nexar.PartChoices
                     Authority = "https://identity.nexar.com/";
                     ApiEndpoint = "https://api.nexar.com/graphql/";
                     break;
-                case NexarMode.Dev:
-                    Authority = "https://identity.nexar.com/";
-                    ApiEndpoint = "https://api.nexar.com/graphql/";
-                    break;
                 default:
                     throw new Exception();
             }
@@ -40,6 +36,5 @@ namespace Nexar.PartChoices
     public enum NexarMode
     {
         Prod,
-        Dev
     }
 }
