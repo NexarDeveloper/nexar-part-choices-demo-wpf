@@ -3,8 +3,7 @@ using System;
 namespace Nexar.PartChoices
 {
     /// <summary>
-    /// App configuration. Different modes and endpoints are used for internal development.
-    /// Clients usually use nexar.com endpoints.
+    /// App configuration.
     /// </summary>
     static class Config
     {
