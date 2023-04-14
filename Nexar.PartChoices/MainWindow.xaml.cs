@@ -103,8 +103,19 @@ namespace Nexar.PartChoices
             var workspace = (WorkspaceTag)item.Tag;
             item.Items.Clear();
 
+            // fetch folders
+            var foldersTask = Task.Run(async () =>
+            {
+                var client = NexarClientFactory.GetClient(workspace.Tag.Location.ApiServiceUrl);
+                var res = await client.Folders.ExecuteAsync(workspace.Tag.Url);
+                ClientHelper.EnsureNoErrors(res);
+
+                var rootFolders = FolderTreeNode.GetRootNodes(res.Data.DesLibrary.Folders);
+                return rootFolders;
+            });
+
             // fetch components (shallow info) with paging
-            var components = Task.Run(async () =>
+            var componentsTask = Task.Run(async () =>
             {
                 var list = new List<IMyComponent>();
                 string endCursor = null;
@@ -120,18 +131,23 @@ namespace Nexar.PartChoices
                     endCursor = data.PageInfo.EndCursor;
                 }
                 return list;
-            }).Result;
+            });
 
-            // group components by folder names
-            var folders = components
-                .GroupBy(x => x.Folder?.Name)
-                .OrderBy(x => x.Key);
+            var folders = foldersTask.Result;
+            var components = componentsTask.Result;
 
             // populate workspace with folders
             foreach (var folder in folders)
             {
-                var folderTreeItem = Tree.CreateItem(new FolderTag(folder.Key, workspace, folder), true);
+                var tag = new FolderTag(folder, components, workspace);
+                var folderTreeItem = Tree.CreateItem(tag, tag.CanExpand);
                 item.Items.Add(folderTreeItem);
+            }
+
+            // ... and components with no folder
+            foreach (var component in components.Where(x => x.Folder is null).OrderBy(x => x.Name))
+            {
+                item.Items.Add(Tree.CreateItem(new ComponentTag(component, workspace), false));
             }
         }
 
@@ -143,7 +159,10 @@ namespace Nexar.PartChoices
             var folder = (FolderTag)item.Tag;
             item.Items.Clear();
 
-            foreach (var component in folder.Components.OrderBy(x => x.Name))
+            foreach (var sub in folder.Folders)
+                item.Items.Add(Tree.CreateItem(sub, sub.CanExpand));
+
+            foreach (var component in folder.Components)
                 item.Items.Add(Tree.CreateItem(new ComponentTag(component, folder.Workspace), false));
         }
 

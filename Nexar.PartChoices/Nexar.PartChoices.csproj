@@ -250,6 +250,7 @@
     <Compile Include="Core\Tree.cs" />
     <Compile Include="Types\FolderTag.cs" />
     <Compile Include="Types\ComponentTag.cs" />
+    <Compile Include="Core\FolderTreeNode.cs" />
     <Compile Include="Types\PartInfo.cs" />
     <Compile Include="Types\TagType.cs" />
     <Compile Include="Types\WorkspaceTag.cs" />

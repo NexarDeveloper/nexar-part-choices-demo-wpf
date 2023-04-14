@@ -1,4 +1,5 @@
-﻿query Components($workspaceUrl: String! $first: Int! $after: String) {
+﻿# Gets components.
+query Components($workspaceUrl: String! $first: Int! $after: String) {
   desLibrary(workspaceUrl: $workspaceUrl) {
     components(first: $first after: $after) {
       pageInfo {
@@ -12,10 +13,11 @@
   }
 }
 
+# This fragment becomes IMyComponent in C#.
 fragment MyComponent on DesComponent {
   id
   name
   folder {
-    name
+    id
   }
 }
