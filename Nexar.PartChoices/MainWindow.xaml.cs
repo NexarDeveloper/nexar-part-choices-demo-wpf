@@ -106,9 +106,9 @@ namespace Nexar.PartChoices
             // fetch folders
             var foldersTask = Task.Run(async () =>
             {
-                var client = NexarClientFactory.GetClient(workspace.Tag.Location.ApiServiceUrl);
+                var client = workspace.GetNexarClient();
                 var res = await client.Folders.ExecuteAsync(workspace.Tag.Url);
-                ClientHelper.EnsureNoErrors(res);
+                res.AssertNoErrors();
 
                 var rootFolders = FolderTreeNode.GetRootNodes(res.Data.DesLibrary.Folders);
                 return rootFolders;
@@ -121,9 +121,9 @@ namespace Nexar.PartChoices
                 string endCursor = null;
                 while (true)
                 {
-                    var client = NexarClientFactory.GetClient(workspace.Tag.Location.ApiServiceUrl);
+                    var client = workspace.GetNexarClient();
                     var res = await client.Components.ExecuteAsync(workspace.Tag.Url, 1000, endCursor);
-                    ClientHelper.EnsureNoErrors(res);
+                    res.AssertNoErrors();
                     var data = res.Data.DesLibrary.Components;
                     list.AddRange(data.Nodes);
                     if (!data.PageInfo.HasNextPage)
@@ -208,9 +208,9 @@ namespace Nexar.PartChoices
                     {
                         var parts = Task.Run(async () =>
                         {
-                            var client = NexarClientFactory.GetClient(component.Workspace.Tag.Location.ApiServiceUrl);
+                            var client = component.Workspace.GetNexarClient();
                             var res = await client.Parts.ExecuteAsync(component.Tag.Id);
-                            ClientHelper.EnsureNoErrors(res);
+                            res.AssertNoErrors();
                             return res.Data.DesComponentById.ManufacturerParts;
                         }).Result;
 

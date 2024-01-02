@@ -33,11 +33,11 @@ namespace Nexar.PartChoices
                         new string[] { "user.access", "design.domain" },
                         Config.Authority);
 
-                    NexarClientFactory.AccessToken = login.AccessToken;
+                    Config.AccessToken = login.AccessToken;
                 }
                 else
                 {
-                    NexarClientFactory.AccessToken = Config.Authority;
+                    Config.AccessToken = Config.Authority;
                 }
             }
             catch (Exception ex)
@@ -51,9 +51,9 @@ namespace Nexar.PartChoices
         {
             try
             {
-                var client = NexarClientFactory.GetClient(Config.ApiEndpoint);
+                var client = NexarClientFactory.CreateClient(Config.ApiEndpoint, Config.AccessToken);
                 var res = await client.Workspaces.ExecuteAsync();
-                ClientHelper.EnsureNoErrors(res);
+                res.AssertNoErrors();
                 Workspaces = res.Data.DesWorkspaces;
             }
             catch (Exception ex)

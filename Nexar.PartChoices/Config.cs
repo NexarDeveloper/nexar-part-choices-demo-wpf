@@ -9,8 +9,9 @@ namespace Nexar.PartChoices
     {
         public const string MyTitle = "Nexar.PartChoices";
 
-        public static string Authority { get; private set; }
-        public static string ApiEndpoint { get; private set; }
+        public static string Authority { get; }
+        public static string ApiEndpoint { get; }
+        public static string AccessToken { get; set; }
 
         static Config()
         {
